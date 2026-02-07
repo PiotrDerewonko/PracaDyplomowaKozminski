@@ -11,11 +11,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-COPY requriments.txt /app/
-RUN pip install --no-cache-dir -r requriments.txt
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project code
-COPY . /app
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Default command can be overridden by docker-compose
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["/entrypoint.sh"]

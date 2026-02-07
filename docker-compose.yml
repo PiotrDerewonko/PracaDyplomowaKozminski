@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16
-    container_name: postgres
+    container_name: postgres_praca_dyplomowa
     restart: unless-stopped
     env_file:
       - .env
@@ -16,11 +16,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django
+    container_name: django_praca_dyplomowa
     command: python manage.py runserver 0.0.0.0:8000
     env_file:
       - .env
     environment:
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}

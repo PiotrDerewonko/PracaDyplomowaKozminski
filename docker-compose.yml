@@ -11,6 +11,18 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - backend
+  mongo:
+    image: mongo:8.2
+    container_name: mongo_praca_dyplomowa
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
 
   django:
     build:
@@ -43,6 +55,8 @@ services:
 
 volumes:
   pgdata:
+    driver: local
+  mongo_data:
     driver: local
 
 networks:
